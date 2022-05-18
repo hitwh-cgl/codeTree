@@ -37,6 +37,9 @@ package cn;
 // 👍 871 👎 0
 
 
+/**
+ * 1.toCharArray直接通过数组访问比通过charAt要快，559ms->146ms 11ms->6ms
+ */
 public class PalindromicSubstrings_647 {
 
     public static void main(String[] args) {
@@ -51,11 +54,12 @@ public class PalindromicSubstrings_647 {
          */
         public int countSubstrings(String s) {
             int length = s.length();
+            char[] chars = s.toCharArray();
             int count = 0;
             // i is the length of palindromic subString
             for (int i = 1; i <= length; i++) {
                 for (int index = 0; index <= length - i; index++) {
-                    if (valid(s, index, index + i - 1, i / 2)) {
+                    if (valid(chars, index, index + i - 1, i / 2)) {
                         count++;
                     }
                 }
@@ -64,9 +68,9 @@ public class PalindromicSubstrings_647 {
         }
 
         // ababa 0 4 2
-        public boolean valid(String s, int startIndex, int endIndex, int step) {
+        public boolean valid(char[] chars, int startIndex, int endIndex, int step) {
             while (step-- > 0) {
-                if (s.charAt(startIndex++) != s.charAt(endIndex--)) {
+                if (chars[startIndex++] != chars[endIndex--]) {
                     return false;
                 }
             }
@@ -80,7 +84,6 @@ public class PalindromicSubstrings_647 {
             int length = s.length();
             boolean[][] match = new boolean[length][length];
             int count = 0;
-            // 直接通过数组访问比通过charAt要快，11ms->6ms
             char[] chars = s.toCharArray();
             for (int i = 1; i <= length; i++) {
                 for (int index = 0; index <= length - i; index++) {
