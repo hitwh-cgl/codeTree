@@ -34,74 +34,52 @@ package cn;
 // 👍 1920 👎 0
 
 
-import java.util.TreeMap;
-
 public class SymmetricTree_101 {
-    static //leetcode submit region begin(Prohibit modification and deletion)
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-
-        class Solution {
-            public boolean isSymmetric(TreeNode root) {
-                if (root == null) {
-                    return true;
-                }
-
-                if (root.left == null && root.right == null) {
-                    return true;
-                }
-
-                if (root.left == null || root.right == null) {
-                    return false;
-                }
-
-                return isMirror(root.left, root.right);
+    //leetcode submit region begin(Prohibit modification and deletion)
+    static class Solution {
+        public boolean isSymmetric(TreeNode root) {
+            if (root == null) {
+                return true;
             }
 
-            public boolean isMirror(TreeNode left, TreeNode right) {
-                if (left.val != right.val) {
-                    return false;
-                }
-                if (left.left == null && right.right != null) {
-                    return false;
-                }
-                if (left.left != null && right.right == null) {
-                    return false;
-                }
-
-                if (left.right == null && right.left != null) {
-                    return false;
-                }
-                if (left.right != null && right.left == null) {
-                    return false;
-                }
-
-                boolean isMirror = true;
-                if (left.left != null && right.right != null) {
-                    isMirror = isMirror(left.left, right.right);
-                }
-                if (left.right != null && right.left != null) {
-                    isMirror &= isMirror(left.right, right.left);
-                }
-                return isMirror;
+            if (root.left == null && root.right == null) {
+                return true;
             }
-        }
-//leetcode submit region end(Prohibit modification and deletion)
 
+            if (root.left == null || root.right == null) {
+                return false;
+            }
+
+            return isMirror(root.left, root.right);
+        }
+
+        public boolean isMirror(TreeNode left, TreeNode right) {
+            if (left.val != right.val) {
+                return false;
+            }
+            if (left.left == null && right.right != null) {
+                return false;
+            }
+            if (left.left != null && right.right == null) {
+                return false;
+            }
+
+            if (left.right == null && right.left != null) {
+                return false;
+            }
+            if (left.right != null && right.left == null) {
+                return false;
+            }
+
+            boolean isMirror = true;
+            if (left.left != null && right.right != null) {
+                isMirror = isMirror(left.left, right.right);
+            }
+            if (left.right != null && right.left != null) {
+                isMirror &= isMirror(left.right, right.left);
+            }
+            return isMirror;
+        }
     }
+//leetcode submit region end(Prohibit modification and deletion)
 }
