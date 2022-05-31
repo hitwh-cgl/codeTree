@@ -60,8 +60,8 @@ public class NumberOfIslands_200 {
                         if (grid[i][j] == '1') {
                             count++;
                             visit[i][j] = true;
-                            // 广度优先搜索
-                            breadthFirstSearch(i, j, grid, visit);
+                            // 其实是深度优先搜索每个可以联通的小岛
+                            depthFirstSearch(i, j, grid, visit);
                         } else {
                             visit[i][j] = true;
                         }
@@ -75,32 +75,32 @@ public class NumberOfIslands_200 {
         // 1 1 1
         // 0 1 0
         // 1 1 0 例如左边的这个1；
-        private void breadthFirstSearch(int i, int j, char[][] grid, boolean[][] visit) {
+        private void depthFirstSearch(int i, int j, char[][] grid, boolean[][] visit) {
             int m = grid.length;
             int n = grid[0].length;
 
             if (i + 1 < m && !visit[i + 1][j]) {
                 visit[i + 1][j] = true;
                 if (grid[i + 1][j] == '1') {
-                    breadthFirstSearch(i + 1, j, grid, visit);
+                    depthFirstSearch(i + 1, j, grid, visit);
                 }
             }
             if (j + 1 < n && !visit[i][j + 1]) {
                 visit[i][j + 1] = true;
                 if (grid[i][j + 1] == '1') {
-                    breadthFirstSearch(i, j + 1, grid, visit);
+                    depthFirstSearch(i, j + 1, grid, visit);
                 }
             }
             if (i - 1 >= 0 && !visit[i - 1][j]) {
                 visit[i - 1][j] = true;
                 if (grid[i - 1][j] == '1') {
-                    breadthFirstSearch(i - 1, j, grid, visit);
+                    depthFirstSearch(i - 1, j, grid, visit);
                 }
             }
             if (j - 1 >= 0 && !visit[i][j - 1]) {
                 visit[i][j - 1] = true;
                 if (grid[i][j - 1] == '1') {
-                    breadthFirstSearch(i, j - 1, grid, visit);
+                    depthFirstSearch(i, j - 1, grid, visit);
                 }
             }
         }
