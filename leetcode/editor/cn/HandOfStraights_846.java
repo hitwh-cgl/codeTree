@@ -42,49 +42,45 @@ package cn;
 // 👍 203 👎 0
 
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class HandOfStraights_846 {
     //leetcode submit region begin(Prohibit modification and deletion)
-    class Solution {
+    static class Solution {
 
         public boolean isNStraightHand(int[] hand, int groupSize) {
-            // length check
             if (hand.length % groupSize != 0) {
                 return false;
             }
-            // choose sort
 
-            // i: how many numbers have been used
-            // used: mark the the number is used or not
-            int[] used = new int[hand.length];
+            TreeMap<Integer, Integer> map = new TreeMap<>();
+            for (int i : hand) {
+                map.put(i, map.getOrDefault(i, 0) + 1);
+            }
             for (int i = 0; i < hand.length / groupSize; i++) {
-                int currentHeadIndex = Integer.MAX_VALUE;
-                // find current straight head, the minimum number that not used
-                for (int j = 0; j < hand.length; j++) {
-                    if (used[j] == 0
-                            && (currentHeadIndex == Integer.MAX_VALUE || hand[j] < hand[currentHeadIndex])) {
-                        currentHeadIndex = j;
-                    }
-                }
-                used[currentHeadIndex] = 1;
-                // find the left numbers
-                for (int n = 1; n < groupSize; n++) {
-                    boolean find = false;
-                    for (int m = 0; m < hand.length; m++) {
-                        if (used[m] == 0 && hand[m] == hand[currentHeadIndex] + 1) {
-                            used[m] = 1;
-                            currentHeadIndex = m;
-                            find = true;
-                            break;
-                        }
-                    }
-                    if (!find) {
+                Map.Entry<Integer, Integer> first = map.firstEntry();
+                int start = first.getKey() - 1;
+                for (int j = 0; j < groupSize; j++) {
+                    Integer count = map.get(start + 1);
+                    if (count == null || count < 1) {
                         return false;
                     }
+
+                    if (count > 1) {
+                        map.put(start + 1, count - 1);
+                    } else {
+                        map.remove(start + 1);
+                    }
+                    start++;
                 }
             }
             return true;
         }
 
+        /**
+         * 类似冒泡排序，利于理解和书写；
+         */
         public boolean isNStraightHand2(int[] hand, int groupSize) {
             // length check
             if (hand.length % groupSize != 0) {

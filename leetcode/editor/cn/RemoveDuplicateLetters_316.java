@@ -35,36 +35,39 @@ package cn;
 
 
 /**
- * 1.使用StringBuilder进行deleteCharAt时发现元素下标会变
- * 2.元素该不该删除会随着后面元素删除变化，比如 bcabc, 第一次c删除后第一个b变成了应该删除。
+ * 1.如果之前的元素后面还会出现，并且大于当前元素，应该删除之前的元素，并标记它们不存在；
+ * 2.如果元素已经保存在单调栈里面，当前的重复元素应该删除;(因为前面元素的后续元素会大于该元素，删除之前的元素会变大)；
  */
 public class RemoveDuplicateLetters_316 {
 
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        solution.removeDuplicateLetters("dbede");
+    }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-    class Solution {
+    static class Solution {
         public String removeDuplicateLetters(String s) {
-            boolean[] flag = new boolean[26];
+            boolean[] exist = new boolean[26];
             int[] num = new int[26];
             for (int i = 0; i < s.length(); i++) {
                 num[s.charAt(i) - 'a']++;
             }
+            // builder就是单调栈
             StringBuilder builder = new StringBuilder();
             for (int i = 0; i < s.length(); i++) {
-                char ch = s.charAt(i);
-                // 这个字母位置没有确定
-                if (!flag[ch - 'a']) {
-                    while (builder.length() > 0 && builder.charAt(builder.length() - 1) > ch) {
-                        if (num[builder.charAt(builder.length() - 1) - 'a'] > 0) {
-                            flag[builder.charAt(builder.length() - 1) - 'a'] = false;
-                            builder.deleteCharAt(builder.length() - 1);
-                        } else {
-                            break;
-                        }
+                char cur = s.charAt(i);
+                if (!exist[cur - 'a']) {
+                    while (builder.length() > 0
+                            && builder.charAt(builder.length() - 1) > cur
+                            && num[builder.charAt(builder.length() - 1) - 'a'] > 0) {
+                        exist[builder.charAt(builder.length() - 1) - 'a'] = false;
+                        builder.deleteCharAt(builder.length() - 1);
                     }
-                    flag[ch - 'a'] = true;
-                    builder.append(ch);
+                    exist[cur - 'a'] = true;
+                    builder.append(cur);
                 }
-                num[ch - 'a']--;
+                num[cur - 'a']--;
             }
             return builder.toString();
         }

@@ -36,7 +36,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
- * 异常case: {0,0}
+ * 1.异常case: {0,0}
+ * 2.523vs52的第一轮比较是52vs52,第二轮比较应该是3比较52;
  */
 public class LargestNumber_179 {
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -51,7 +52,9 @@ public class LargestNumber_179 {
         }
 
         private int compare(String s1, String s2) {
-            if (s1.equals(s2)) return 0;
+            if (s1.equals(s2)) {
+                return 0;
+            }
             int i1 = 0, i2 = 0;
             for (; i1 < s1.length() && i2 < s2.length(); i1++, i2++) {
                 if (s1.charAt(i1) > s2.charAt(i2)) {
@@ -69,7 +72,8 @@ public class LargestNumber_179 {
 
         public String largestNumber2(int[] nums) {
             String result = IntStream.of(nums).boxed().map(String::valueOf)
-                    .sorted((x, y) -> (y + x).compareTo(x + y)).collect(Collectors.joining(""));
+                    .sorted((x, y) -> (y + x).compareTo(x + y))
+                    .collect(Collectors.joining(""));
             return result.charAt(0) == '0' ? "0" : result;
         }
 
