@@ -42,6 +42,8 @@ package cn;
 // 👍 1268 👎 0
 
 
+import java.util.*;
+
 /**
  * one course may need multi preCourses;bh
  *
@@ -50,32 +52,63 @@ package cn;
 public class CourseSchedule_207 {
 
     public static void main(String[] args) {
-        int[][] pre = {{1, 4}, {2, 4}, {3, 1}, {3, 2}};
+        int[][] pre = {{1, 4}, {2, 4}, {3, 1}, {3, 2}, {5, 6}, {6, 5}};
         Solution s = new Solution();
-        boolean canFinish = s.canFinish(5, pre);
+        boolean canFinish = s.canFinish(7, pre);
         System.out.print(canFinish);
     }
 
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public boolean canFinish(int numCourses, int[][] prerequisites) {
-            int finish = numCourses;
-            boolean[] needPre = new boolean[numCourses];
-            for (int i = 0; i < prerequisites.length; i++) {
-                if (!needPre[prerequisites[i][0]]) {
-                    needPre[prerequisites[i][0]] = true;
-                    finish--;
+
+            boolean[] finished = new boolean[numCourses];
+            Map<Integer, List<Integer>> preMap = new HashMap<>(numCourses);
+            for (int[] pre : prerequisites) {
+                preMap.putIfAbsent(pre[0], new ArrayList<>());
+                preMap.get(pre[0]).add(pre[1]);
+            }
+
+            for (int i = 0; i < numCourses; i++) {
+                if (finished[i]) {
+                    continue;
+                }
+
+                Set<Integer> dependSet = new HashSet<>();
+                dependSet.add(i);
+                if (!dfs(i, preMap, dependSet, finished)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private boolean dfs(Integer course,
+                            Map<Integer, List<Integer>> preMap,
+                            Set<Integer> dependSet,
+                            boolean[] finished) {
+
+            List<Integer> preList = preMap.get(course);
+            if (preList != null) {
+                for (Integer pre : preList) {
+                    if (finished[pre]) {
+                        continue;
+                    }
+                    if (!dependSet.add(pre)) {
+                        return false;
+                    }
+
+                    if (dfs(pre, preMap, dependSet, finished)) {
+                        dependSet.remove(pre);
+                    } else {
+                        return false;
+                    }
                 }
             }
 
-            for (int i = 0; i < prerequisites.length; i++) {
-                int[] pair = prerequisites[i];
-                if (!needPre[pair[1]] && needPre[pair[0]]) {
-                    needPre[pair[0]] = false;
-                    finish++;
-                }
-            }
-            return finish == numCourses;
+            finished[course] = true;
+            dependSet.remove(course);
+            return true;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
