@@ -39,7 +39,34 @@ import java.util.Stack;
 public class MinimumDepthOfBinaryTree_111 {
     //leetcode submit region begin(Prohibit modification and deletion)
     static class Solution {
+        private int depth = 100000;
+
         public int minDepth(TreeNode root) {
+            if(root == null){
+                return 0;
+            }
+            if(root.left == null && root.right==null){
+                return 1;
+            }
+            dfs(root.left,2);
+            dfs(root.right,2);
+            return  depth;
+        }
+
+        private void dfs(TreeNode root, int level){
+            if(root == null){
+                return;
+            }
+
+            if(root.left == null && root.right == null){
+                depth = Math.min(depth,level);
+            }else{
+                dfs(root.left,level+1);
+                dfs(root.right,level+1);
+            }
+        }
+
+        public int stack(TreeNode root) {
             if (root == null) {
                 return 0;
             }

@@ -20,23 +20,12 @@ package cn;
 // 👍 1259 👎 0
 
 
+/**
+ * 这道题跟111的求最小深度很像，但是最大深度一定来自叶子节点，而最小深度不一定来自叶子节点，因此不一样；
+ * @author liuchenguang002
+ */
 public class MaximumDepthOfBinaryTree_104 {
     static //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
     class Solution {
         public int maxDepth(TreeNode root) {
             return root == null ? 0 : Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
