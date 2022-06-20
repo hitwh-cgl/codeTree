@@ -2,6 +2,8 @@ package cn;
 
 /**
 
+ $!velocityTool.camelCaseName(${question.titleSlug})_${question.frontendQuestionId}
+
  package cn;
 
  ${question.content}
