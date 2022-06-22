@@ -30,7 +30,7 @@ package cn;
 
 
 /**
- * 这种题目还是得
+ * 这种题目还是得画图找规律
  *
  * @author liuchenguang002
  */
