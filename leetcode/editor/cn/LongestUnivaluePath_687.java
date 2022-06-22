@@ -37,6 +37,10 @@ package cn;
 // 👍 567 👎 0
 
 
+/**
+ * 1.以每个节点为中心，向两侧延展
+ * 2.自底向上计算局部最优解，判断是否连通
+ */
 public class LongestUnivaluePath_687 {
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
@@ -46,7 +50,9 @@ public class LongestUnivaluePath_687 {
             return max;
         }
 
-
+        /**
+         * 与root节点值相同的子节点路径最大长度;
+         */
         private int fromLeafToRoot(TreeNode root) {
             if (root == null) {
                 return 0;
@@ -60,7 +66,9 @@ public class LongestUnivaluePath_687 {
             if (root.right != null && root.val == root.right.val) {
                 curRight = rightMax + 1;
             }
+            // 计算最长用的是左右子树路径长度和
             max = Math.max(max, curLeft + curRight);
+            // 向上返回用的是左右子树距离最大和
             return Math.max(curLeft, curRight);
         }
 

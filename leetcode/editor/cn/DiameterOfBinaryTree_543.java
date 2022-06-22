@@ -24,23 +24,8 @@ package cn;
 
 
 public class DiameterOfBinaryTree_543 {
-    static //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
-    class Solution {
+    //leetcode submit region begin(Prohibit modification and deletion)
+    static class Solution {
         /**
          * 二叉树的直径可以转换为从该节点出发的左右子树最大深度之和+1,假设根节点深度为0;
          * 因为不一定经过根节点，所以最大直径的路径根节点可能是某个子树；
