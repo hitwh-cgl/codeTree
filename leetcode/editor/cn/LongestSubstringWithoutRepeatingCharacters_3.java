@@ -95,6 +95,8 @@ public class LongestSubstringWithoutRepeatingCharacters_3 {
                 Character c = s.charAt(i);
                 if (map.containsKey(c)) {
                     // 下面是dp状态转移方程的关键,对于fn来说，如果下一个字符重复，重复的字符无非两种可能，在当前的最长字串中或者不在当前的最长字串中；
+                    // 不在 curLength+1 < i-map.get(c)
+                    // 在 i-map.get(c) < curLength+1
                     curLength = Math.min(curLength + 1, i - map.get(c));
                     map.put(c, i);
                 } else {

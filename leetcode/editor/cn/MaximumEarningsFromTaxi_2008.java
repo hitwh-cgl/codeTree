@@ -50,6 +50,12 @@ package cn;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * 注意看示例，没有客户的时候，出租车行驶不扣钱，这决定我们的状态初始值 f(x)=f(x-1);
+ *
+ * @author 17862
+ */
 public class MaximumEarningsFromTaxi_2008 {
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {

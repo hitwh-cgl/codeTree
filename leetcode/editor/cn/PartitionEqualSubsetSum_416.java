@@ -36,9 +36,9 @@ import java.util.Set;
 
 public class PartitionEqualSubsetSum_416 {
     public static void main(String[] args) {
-        int[] nums = {1, 1};
+        int[] nums = {2, 2, 3, 5};
         Solution solution = new Solution();
-        solution.canPartition(nums);
+        solution.dp2(nums);
     }
 
     static //leetcode submit region begin(Prohibit modification and deletion)
@@ -75,7 +75,7 @@ public class PartitionEqualSubsetSum_416 {
 
         /**
          * 当时不想这么写，因为担心dp数据过大会造成内存溢出，但是显然这个要快一点；
-         * 结果又快占用内存又少，无语了，HasMap这么垃圾嘛。。。
+         * 结果又快占用内存又少，无语了，HasHMap这么垃圾嘛。。。
          */
         public boolean dp(int[] nums) {
             int total = 0;
@@ -93,6 +93,36 @@ public class PartitionEqualSubsetSum_416 {
                 for (int i = target; i >= num; i--) {
                     match[i] |= match[i - num];
                 }
+            }
+            return match[target];
+        }
+
+        /**
+         * 优化部分时间 7ms->6ms
+         */
+        public boolean dp2(int[] nums) {
+            int total = 0;
+            for (int num : nums) {
+                total += num;
+            }
+            if (total % 2 != 0) {
+                return false;
+            }
+            int target = total / 2;
+            boolean[] match = new boolean[target + 1];
+            match[0] = true;
+            int max = 0;
+
+            for (int num : nums) {
+                for (int i = Math.min(max, target - num); i >= 0; i--) {
+                    if (i + num <= target && match[i]) {
+                        match[i + num] = true;
+                        if (i + num == target) {
+                            return true;
+                        }
+                    }
+                }
+                max += num;
             }
             return match[target];
         }
