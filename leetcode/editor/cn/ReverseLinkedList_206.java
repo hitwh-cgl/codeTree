@@ -48,42 +48,55 @@ public class ReverseLinkedList_206 {
     static //leetcode submit region begin(Prohibit modification and deletion)
 
     class Solution {
-        public ListNode reverseList(ListNode head) {
-            return recursion(head);
-        }
 
-        private ListNode recursion(ListNode head) {
+        /**
+         * 递归写法
+         */
+        public ListNode reverseList(ListNode head) {
             if (head == null) {
                 return null;
             }
-            if (head.next == null) {
-                return head;
-            }
-            ListNode targetHead = reverseList(head.next);
-            ListNode curTail = targetHead;
-            while (curTail.next != null) {
-                curTail = curTail.next;
-            }
-            curTail.next = head;
-            head.next = null;
+            reverse(head);
             return targetHead;
         }
 
+        private ListNode targetHead;
+
+        /**
+         * param current: 当前需要反转链表的头节点;
+         * return : 反转后链表的尾节点;
+         */
+        private ListNode reverse(ListNode current) {
+            if (current.next == null) {
+                targetHead = current;
+                return current;
+            } else {
+                ListNode tail = reverse(current.next);
+                tail.next = current;
+                current.next = null;
+                return current;
+            }
+        }
+
+        /**
+         * 迭代写法：我们选择使用虚拟头节点来方便书写
+         */
         private ListNode iteration(ListNode head) {
             if (head == null) {
                 return null;
             }
-            ListNode sourceNext = head.next;
-            ListNode targetHead = head;
-            while (sourceNext != null) {
-                ListNode cur = sourceNext;
-                sourceNext = sourceNext.next;
-                cur.next = targetHead;
-                targetHead = cur;
-            }
-            // 防止循环
+
+            ListNode dummyHead = new ListNode();
+            dummyHead.next = head;
+            ListNode current = head.next;
             head.next = null;
-            return targetHead;
+            while (current != null) {
+                ListNode next = current.next;
+                current.next = dummyHead.next;
+                dummyHead.next = current;
+                current = next;
+            }
+            return dummyHead.next;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
