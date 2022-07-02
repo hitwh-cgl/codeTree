@@ -53,6 +53,9 @@ package cn;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * @author 17862
+ */
 public class RangeModule_715 {
     public static void main(String[] args) {
         RangeModule rangeModule = new RangeModule();
@@ -100,11 +103,18 @@ public class RangeModule_715 {
         for (int i = 0; i < cmd.length; i++) {
             if (cmd[i].equals("addRange")) {
                 rangeModule.addRange(nums[i][0], nums[i][1]);
+                System.out.println("add: " + nums[i][0] + "," + nums[i][1]);
+                System.out.println(rangeModule.map);
             } else if (cmd[i].equals("removeRange")) {
                 rangeModule.removeRange(nums[i][0], nums[i][1]);
+                System.out.println("remove: " + nums[i][0] + "," + nums[i][1]);
+                System.out.println(rangeModule.map);
             } else if (cmd[i].equals("queryRange")) {
                 System.out.print(rangeModule.queryRange(nums[i][0], nums[i][1]));
                 System.out.println(result[i] + "");
+                if (rangeModule.queryRange(nums[i][0], nums[i][1]) != result[i]) {
+                    System.out.println("different");
+                }
             }
 
         }
@@ -124,7 +134,7 @@ public class RangeModule_715 {
             entry = map.floorEntry(left);
             // entry.getKey()<=left
             if (entry != null) {
-                if (entry.getValue() <= right && entry.getValue() > left) {
+                if (entry.getValue() <= right && entry.getValue() >= left) {
                     map.remove(entry.getKey());
                     left = entry.getKey();
                 } else if (entry.getValue() >= right) {
