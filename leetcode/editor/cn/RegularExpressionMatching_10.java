@@ -56,43 +56,72 @@ public class RegularExpressionMatching_10 {
 
     public static void main(String[] args) {
         Solution solution = new Solution();
-        solution.isMatch("aa", "a*");
+        System.out.println(solution.isMatch("ab", ".*c"));
     }
 
 
     //leetcode submit region begin(Prohibit modification and deletion)
     static class Solution {
+        private int[][] db;
+
         public boolean isMatch(String s, String p) {
-            int sl = s.length();
-            int pl = p.length();
-            boolean[][] match = new boolean[sl + 1][pl + 1];
-            match[0][0] = true;
-            for (int i = 0; i <= sl; i++) {
-                for (int j = 1; j <= pl; j++) {
-                    if (p.charAt(j - 1) != '*') {
-                        if (matches(s, p, i, j)) {
-                            match[i][j] = match[i - 1][j - 1];
-                        }
-                    } else {
-                        match[i][j] = match[i][j - 2];
-                        if (matches(s, p, i, j - 1)) {
-                            match[i][j] = match[i][j] || match[i - 1][j];
-                        }
-                    }
-                }
-            }
-            return match[sl][pl];
+            int l1 = s.length();
+            int l2 = p.length();
+            // db[i][j] = s.substring(i) match p.substring(j);
+            db = new int[l1 + 1][l2 + 1];
+            db[l1][l2] = 1;
+            isMatch(s, 0, p, 0);
+            return db[0][0] == 1;
         }
 
-        private boolean matches(String s, String p, int i, int j) {
-            if (i == 0) {
-                return false;
+        private int isMatch(String s, int index1, String p, int index2) {
+            if (db[index1][index2] != 0) {
+                return db[index1][index2];
             }
-            if (p.charAt(j - 1) == '.') {
-                return true;
+
+            // 匹配*
+            if (index2 + 1 < p.length() && p.charAt(index2 + 1) == '*') {
+                int next = isMatch(s, index1, p, index2 + 2);
+                int index1Temp = index1;
+                while (next != 1 && index1Temp < s.length() && match(s.charAt(index1Temp), p.charAt(index2))) {
+                    next = isMatch(s, index1Temp + 1, p, index2 + 2);
+                    index1Temp++;
+                }
+                db[index1][index2] = next;
+                return db[index1][index2];
             }
-            return s.charAt(i - 1) == p.charAt(j - 1);
+
+            if (index2 == p.length() && index1 < s.length()) {
+                // 字符串没有匹配完
+                db[index1][index2] = -1;
+                return db[index1][index2];
+            }
+            if (index1 == s.length() && index2 < p.length()) {
+                // 字符串不够匹配
+                db[index1][index2] = -1;
+                return db[index1][index2];
+            }
+
+            // 匹配.
+            // 匹配单个字符
+            if (match(s.charAt(index1), p.charAt(index2))) {
+                int next = isMatch(s, index1 + 1, p, index2 + 1);
+                db[index1][index2] = next;
+                return db[index1][index2];
+            } else {
+                db[index1][index2] = -1;
+                return db[index1][index2];
+            }
         }
+
+        private boolean match(char sc, char pc) {
+            if (pc == '.') {
+                return true;
+            } else {
+                return sc == pc;
+            }
+        }
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
