@@ -16,39 +16,28 @@ public class QuickSort extends BaseSort {
         if (start < end) {
             int mid = start + (end - start) / 2;
             int left = start, right = end;
-            while (left < right) {
-                while (left < mid) {
-                    if (nums[left] <= nums[mid]) {
-                        left++;
-                    } else {
-                        break;
-                    }
-                }
-                while (mid < right) {
-                    if (nums[right] >= nums[mid]) {
-                        right--;
-                    } else {
-                        break;
-                    }
-                }
-                if (left < mid && mid < right) {
-                    swap(nums, left, right);
+            while (left < mid) {
+                if (nums[left] <= nums[mid]) {
                     left++;
-                    right--;
-                } else if (left < mid) {
-                    if (left + 1 == mid) {
-                        swap(nums, left, mid);
-                    } else {
+                } else {
+                    if (left == mid - 1) {
                         swap(nums, mid, mid - 1);
-                        swap(nums, left, mid);
+                    } else {
+                        swap(nums, left, mid - 1);
+                        swap(nums, mid, mid - 1);
                     }
                     mid--;
-                } else if (mid < right) {
-                    if (right - 1 == mid) {
-                        swap(nums, mid, right);
-                    } else {
+                }
+            }
+            while (right > mid) {
+                if (nums[right] >= nums[mid]) {
+                    right--;
+                } else {
+                    if (right == mid + 1) {
                         swap(nums, mid, mid + 1);
-                        swap(nums, mid, right);
+                    } else {
+                        swap(nums, right, mid + 1);
+                        swap(nums, mid, mid + 1);
                     }
                     mid++;
                 }

@@ -33,16 +33,69 @@ package cn;
 
 public class KthLargestElementInAnArray_215 {
     public static void main(String[] args) {
-        int[] nums = new int[]{3, 2, 3, 1, 2, 4, 5, 5, 6};
+        int[] nums = new int[]{3, 2, 1, 5, 6, 4};
         Solution solution = new Solution();
-        int kthLargest = solution.findKthLargest(nums, 4);
+        int kthLargest = solution.findKthLargest(nums, 2);
         System.out.println(kthLargest);
     }
 
 
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        /**
+         * 快速排序改造
+         */
         public int findKthLargest(int[] nums, int k) {
+            int left = 0, right = nums.length - 1;
+            k = nums.length - k;
+            while (left <= right) {
+                int pivot = split(nums, left, right);
+                if (pivot == k) {
+                    return nums[pivot];
+                } else if (pivot > k) {
+                    right = pivot - 1;
+                } else {
+                    left = pivot + 1;
+                }
+            }
+            return -1;
+        }
+
+        private int split(int[] nums, int left, int right) {
+            int mid = left + (right - left) / 2;
+            while (left < mid) {
+                if (nums[left] <= nums[mid]) {
+                    left++;
+                } else {
+                    if (left + 1 == mid) {
+                        swap(nums, mid - 1, mid);
+                    } else {
+                        swap(nums, left, mid - 1);
+                        swap(nums, mid - 1, mid);
+                    }
+                    mid--;
+                }
+            }
+            while (right > mid) {
+                if (nums[right] >= nums[mid]) {
+                    right--;
+                } else {
+                    if (mid + 1 == right) {
+                        swap(nums, mid, mid + 1);
+                    } else {
+                        swap(nums, mid + 1, right);
+                        swap(nums, mid, mid + 1);
+                    }
+                    mid++;
+                }
+            }
+            return mid;
+        }
+
+        /**
+         * 堆排序改造
+         */
+        public int findKthLargestWithHeamSort(int[] nums, int k) {
             int[] heap = new int[k];
             System.arraycopy(nums, 0, heap, 0, k);
             initHeap(heap, k);
@@ -86,10 +139,10 @@ public class KthLargestElementInAnArray_215 {
             }
         }
 
-        private void swap(int[] heap, int i, int j) {
-            int temp = heap[i];
-            heap[i] = heap[j];
-            heap[j] = temp;
+        private void swap(int[] nums, int i, int j) {
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
         }
 
     }
