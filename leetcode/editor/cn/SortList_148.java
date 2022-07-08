@@ -44,6 +44,13 @@ package cn;
 // 👍 1669 👎 0
 
 
+/**
+ * 最快的排序策略是先拷贝值到数组，然后Arrays.sort再复制回去；
+ * 因为即使我传递长度给后续函数，拆分数组时仍然需要多一次遍历，整体耗时确实类似2倍的关系；
+ * 注意归并排序的递归结束条件，避免栈溢出；
+ *
+ * @author 17862
+ */
 public class SortList_148 {
     public static void main(String[] args) {
         ListNode head = new ListNode(4, new ListNode(2, new ListNode(1, new ListNode(3))));
@@ -77,7 +84,7 @@ public class SortList_148 {
         }
 
         private ListNode sortList(ListNode head, int count) {
-            if (count==1){
+            if (count == 1) {
                 return head;
             }
 
