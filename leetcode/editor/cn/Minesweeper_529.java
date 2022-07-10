@@ -64,9 +64,12 @@ package cn;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.HashSet;
-import java.util.Set;
 
+/**
+ * 通过判定是否是'E'来防止重复遍历
+ *
+ * @author 17862
+ */
 public class Minesweeper_529 {
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
@@ -88,13 +91,12 @@ public class Minesweeper_529 {
                 board[row][column] = 'B';
             }
 
-            Set<Integer> visit = new HashSet<>();
-            visit.add(hash(click));
+
             Deque<int[]> stack = new ArrayDeque<>();
             fillTheStack(stack, m, n, row, column);
             while (!stack.isEmpty()) {
                 int[] cur = stack.pop();
-                if (visit.add(hash(cur))) {
+                if (board[cur[0]][cur[1]] == 'E') {
                     int curCount = countMineAround(board, cur[0], cur[1]);
                     if (curCount > 0) {
                         board[cur[0]][cur[1]] = (char) ('0' + curCount);
