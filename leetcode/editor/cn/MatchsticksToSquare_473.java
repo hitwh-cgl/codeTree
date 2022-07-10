@@ -37,10 +37,7 @@ package cn;
 // 👍 392 👎 0
 
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.stream.IntStream;
 
 public class MatchsticksToSquare_473 {
     public static void main(String[] args) {
