@@ -10,6 +10,7 @@ public class Main_HW3 {
         boolean[] notFinish = new boolean[n];
         Map<Integer, Integer> map = new HashMap<>(n);
         // 如何让控制台停止输入
+        // CTRL+D(KeyMap) send EOF
         while (in.hasNext()) {
             int before = in.nextInt();
             int after = in.nextInt();

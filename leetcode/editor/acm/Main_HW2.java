@@ -17,7 +17,6 @@ public class Main_HW2 {
                 if (c < low || c > high) {
                     continue;
                 }
-//                for (int c = b + 1; c <= high; c++) {
                 if (a * a + b * b == c * c) {
                     boolean ok = true;
                     for (int[] before : success) {
