@@ -78,7 +78,7 @@ public class LengthOfLongestFibonacciSubsequence_873 {
         }
 
         /**
-         * 官方答案是使用动态规划，我自己写的版本更加类似带剪枝的记忆化搜素+深度优先搜索
+         * 官方答案是使用动态规划，我自己写的版本更加类似带剪枝的回溯算法，因为本质还是暴力枚举
          */
         public int lenLongestFibSubseq(int[] arr) {
             Map<Integer, Integer> map = new HashMap<>(arr.length);
@@ -92,6 +92,7 @@ public class LengthOfLongestFibonacciSubsequence_873 {
                     int f0 = i, f1 = j, curLength = 2;
                     if (!visit[f0][f1]) {
                         while (true) {
+                            // 这里主要是减去深度优先遍历后面的子序列搜索，但是减的不够多
                             visit[f0][f1] = true;
                             // dfs
                             Integer nextIndex = map.get(arr[f0] + arr[f1]);
