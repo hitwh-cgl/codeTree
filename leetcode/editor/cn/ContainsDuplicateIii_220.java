@@ -41,6 +41,12 @@ package cn;
 
 import java.util.TreeSet;
 
+/**
+ * 真是被set和map坑怕了，导致我现在看见set和map容器就担心重复，额外处理和判断；
+ * 但是对于这题，如果重复元素，那么这两个重复元素一定满足条件，不用额外处理；
+ *
+ * @author 17862
+ */
 public class ContainsDuplicateIii_220 {
     public static void main(String[] args) {
         Solution solution = new Solution();
