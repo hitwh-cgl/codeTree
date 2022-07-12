@@ -57,6 +57,9 @@ public class SubstringWithConcatenationOfAllWords_30 {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     static class Solution {
+        /**
+         * 大哥，你这个写法根本不能算滑动窗口吧
+         */
         public List<Integer> findSubstring(String s, String[] words) {
             int unit = words[0].length();
             int count = words.length;

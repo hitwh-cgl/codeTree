@@ -80,13 +80,9 @@ public class JumpGameVi_1696 {
             for (int i = 1; i < nums.length - 1; i++) {
                 int[] cur = deque.peek();
                 int next = nums[i] + cur[0];
-                // 删除队首比新的值小的元素
                 // 删除队尾比新的值小的元素
                 // 将新的值插入队尾
                 // 如果队列长度大于等于k，滑动窗口移除队首元素
-                while (!deque.isEmpty() && deque.peek()[0] <= next) {
-                    deque.remove();
-                }
                 while (!deque.isEmpty() && deque.peekLast()[0] <= next) {
                     deque.removeLast();
                 }
