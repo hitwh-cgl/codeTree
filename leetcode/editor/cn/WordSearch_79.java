@@ -49,6 +49,11 @@ package cn;
 // 👍 1324 👎 0
 
 
+/**
+ * todo 考虑怎么使用数据结构实现递归
+ *
+ * @author 17862
+ */
 public class WordSearch_79 {
     public static void main(String[] args) {
         Solution solution = new Solution();
@@ -59,27 +64,27 @@ public class WordSearch_79 {
 
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        private char start;
-        private boolean[][] impossible;
         int m, n;
 
+        /**
+         * 通过递归实现的深度优先搜索
+         */
         public boolean exist(char[][] board, String word) {
-            start = word.charAt(0);
+            char start = word.charAt(0);
             m = board.length;
             n = board[0].length;
-            impossible = new boolean[m][n];
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (!impossible[i][j] && board[i][j] == start) {
+                    if (board[i][j] == start) {
                         if (word.length() == 1) {
                             return true;
                         }
                         boolean[][] visit = new boolean[m][n];
                         visit[i][j] = true;
-                        boolean success = dfs(board, i - 1, j, word, 1, visit)
-                                || dfs(board, i + 1, j, word, 1, visit)
-                                || dfs(board, i, j + 1, word, 1, visit)
-                                || dfs(board, i, j - 1, word, 1, visit);
+                        boolean success = recursion(board, i - 1, j, word, 1, visit)
+                                || recursion(board, i + 1, j, word, 1, visit)
+                                || recursion(board, i, j + 1, word, 1, visit)
+                                || recursion(board, i, j - 1, word, 1, visit);
                         if (success) {
                             return true;
                         }
@@ -89,13 +94,9 @@ public class WordSearch_79 {
             return false;
         }
 
-        private boolean dfs(char[][] board, int i, int j, String word, int index, boolean[][] visit) {
+        private boolean recursion(char[][] board, int i, int j, String word, int index, boolean[][] visit) {
             if (i < 0 || i >= m || j < 0 || j >= n) {
                 return false;
-            }
-            // 剪枝
-            if (board[i][j] != start) {
-                impossible[i][j] = true;
             }
             boolean match = board[i][j] == word.charAt(index) && !visit[i][j];
             if (!match) {
@@ -103,12 +104,12 @@ public class WordSearch_79 {
             }
             visit[i][j] = true;
             if (index == word.length() - 1) {
-                return match;
+                return true;
             }
-            boolean success = dfs(board, i - 1, j, word, index + 1, visit)
-                    || dfs(board, i + 1, j, word, index + 1, visit)
-                    || dfs(board, i, j + 1, word, index + 1, visit)
-                    || dfs(board, i, j - 1, word, index + 1, visit);
+            boolean success = recursion(board, i - 1, j, word, index + 1, visit)
+                    || recursion(board, i + 1, j, word, index + 1, visit)
+                    || recursion(board, i, j + 1, word, index + 1, visit)
+                    || recursion(board, i, j - 1, word, index + 1, visit);
             if (!success) {
                 visit[i][j] = false;
             }

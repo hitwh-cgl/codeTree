@@ -46,23 +46,20 @@ package cn;
 // 👍 565 👎 0
 
 
+import utils.ArrayUtils;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
 /**
  * 1.这题虽然可以用深度优先遍历实现，但是还是用迭代的方法更加灵活且容易理解；
- * 2.DFS的写法，我的版本很多坑，而且执行效率不太行
+ * 2.DFS的写法，我的版本很多坑，而且执行效率不太行(后面重写了一版，感觉还行)
  *
  * @author 17862
  */
 public class IslandPerimeter_463 {
     public static void main(String[] args) {
-        int[][] grid = new int[][]
-//                {{0, 1, 0, 0},
-//                {1, 1, 1, 0},
-//                {0, 1, 0, 0},
-//                {1, 1, 0, 0}};
-                {{0, 1, 1}, {1, 1, 1}};
+        int[][] grid = ArrayUtils.parse("[[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]");
         Solution solution = new Solution();
         int i = solution.islandPerimeter(grid);
         System.out.println(i);
@@ -91,21 +88,66 @@ public class IslandPerimeter_463 {
 
 
         public int islandPerimeter(int[][] grid) {
-            int row = grid.length;
-            int col = grid[0].length;
-            boolean[][] visit = new boolean[row][col];
+            int m = grid.length;
+            int n = grid[0].length;
 
             Deque<int[]> deque = new ArrayDeque<>();
-            for (int i = 0; i < row; i++) {
-                for (int j = 0; j < col; j++) {
+            for (int i = 0; i < m; i++) {
+                for (int j = 0; j < n; j++) {
                     if (grid[i][j] == 1) {
-                        deque.push(new int[]{i, j});
                         int sum = 0;
+                        deque.push(new int[]{i, j});
                         while (!deque.isEmpty()) {
                             int[] cur = deque.pop();
-                            if (!visit[cur[0]][cur[1]]) {
-                                sum += dfs(grid, visit, cur, deque);
-                                visit[cur[0]][cur[1]] = true;
+                            int x = cur[0];
+                            int y = cur[1];
+                            if (grid[x][y] == 2) {
+                                continue;
+                            } else {
+                                grid[x][y] = 2;
+                            }
+
+                            if (x == 0) {
+                                sum++;
+                            }
+                            if (x == m - 1) {
+                                sum++;
+                            }
+                            if (y == 0) {
+                                sum++;
+                            }
+                            if (y == n - 1) {
+                                sum++;
+                            }
+
+                            if (x + 1 < m) {
+                                if (grid[x + 1][y] == 0) {
+                                    sum++;
+                                } else if (grid[x + 1][y] == 1) {
+                                    deque.push(new int[]{x + 1, y});
+                                }
+                            }
+                            if (y + 1 < n) {
+                                if (grid[x][y + 1] == 0) {
+                                    sum++;
+                                } else if (grid[x][y + 1] == 1) {
+                                    deque.push(new int[]{x, y + 1});
+                                }
+                            }
+
+                            if (x - 1 >= 0) {
+                                if (grid[x - 1][y] == 0) {
+                                    sum++;
+                                } else if (grid[x - 1][y] == 1) {
+                                    deque.push(new int[]{x - 1, y});
+                                }
+                            }
+                            if (y - 1 >= 0) {
+                                if (grid[x][y - 1] == 0) {
+                                    sum++;
+                                } else if (grid[x][y - 1] == 1) {
+                                    deque.push(new int[]{x, y - 1});
+                                }
                             }
                         }
                         return sum;
@@ -113,56 +155,6 @@ public class IslandPerimeter_463 {
                 }
             }
             return 0;
-        }
-
-        /**
-         * 遍历相邻的岛屿部分，如果没有访问就加入栈中等待后续遍历，如果已经访问就会影响周长计算；
-         */
-        private int dfs(int[][] grid, boolean[][] visit, int[] cur, Deque<int[]> deque) {
-            int adjacentVisitedLandCount = 0;
-
-            int row = grid.length;
-            int col = grid[0].length;
-            if (cur[0] + 1 < row && grid[cur[0] + 1][cur[1]] == 1) {
-                if (visit[cur[0] + 1][cur[1]]) {
-                    adjacentVisitedLandCount++;
-                } else {
-                    deque.push(new int[]{cur[0] + 1, cur[1]});
-                }
-            }
-            if (cur[0] - 1 >= 0 && grid[cur[0] - 1][cur[1]] == 1) {
-                if (visit[cur[0] - 1][cur[1]]) {
-                    adjacentVisitedLandCount++;
-                } else {
-                    deque.push(new int[]{cur[0] - 1, cur[1]});
-                }
-            }
-            if (cur[1] + 1 < col && grid[cur[0]][cur[1] + 1] == 1) {
-                if (visit[cur[0]][cur[1] + 1]) {
-                    adjacentVisitedLandCount++;
-                } else {
-                    deque.push(new int[]{cur[0], cur[1] + 1});
-                }
-            }
-            if (cur[1] - 1 >= 0 && grid[cur[0]][cur[1] - 1] == 1) {
-                if (visit[cur[0]][cur[1] - 1]) {
-                    adjacentVisitedLandCount++;
-                } else {
-                    deque.push(new int[]{cur[0], cur[1] - 1});
-                }
-            }
-
-            if (adjacentVisitedLandCount == 0) {
-                return 4;
-            } else if (adjacentVisitedLandCount == 1) {
-                return 2;
-            } else if (adjacentVisitedLandCount == 2) {
-                return 0;
-            } else if (adjacentVisitedLandCount == 3) {
-                return -2;
-            } else {
-                return -4;
-            }
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

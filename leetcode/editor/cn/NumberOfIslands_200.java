@@ -46,63 +46,45 @@ package cn;
 // 👍 1735 👎 0
 
 
+/**
+ * 优化 从53行代码精简到30行，性能3ms->2ms
+ *
+ * @author 17862
+ */
 public class NumberOfIslands_200 {
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
+        int m;
+        int n;
+
         public int numIslands(char[][] grid) {
-            int m = grid.length;
-            int n = grid[0].length;
+            m = grid.length;
+            n = grid[0].length;
             int count = 0;
-            boolean[][] visit = new boolean[m][n];
             for (int i = 0; i < m; i++) {
                 for (int j = 0; j < n; j++) {
-                    if (!visit[i][j]) {
-                        if (grid[i][j] == '1') {
-                            count++;
-                            visit[i][j] = true;
-                            // 其实是深度优先搜索每个可以联通的小岛
-                            depthFirstSearch(i, j, grid, visit);
-                        } else {
-                            visit[i][j] = true;
-                        }
+                    if (grid[i][j] == '1') {
+                        count++;
+                        depthFirstSearch(i, j, grid);
                     }
                 }
             }
             return count;
         }
 
-        // 一开始寄希望于只往右下两个方向遍历来减少重复探索，但是其实需要往左边和右边探索的情况；
-        // 1 1 1
-        // 0 1 0
-        // 1 1 0 例如左边的这个1；
-        private void depthFirstSearch(int i, int j, char[][] grid, boolean[][] visit) {
-            int m = grid.length;
-            int n = grid[0].length;
+        private void depthFirstSearch(int i, int j, char[][] grid) {
+            if (i < 0 || j < 0 || i >= m || j >= n) {
+                return;
+            }
+            if (grid[i][j] != '1') {
+                return;
+            }
 
-            if (i + 1 < m && !visit[i + 1][j]) {
-                visit[i + 1][j] = true;
-                if (grid[i + 1][j] == '1') {
-                    depthFirstSearch(i + 1, j, grid, visit);
-                }
-            }
-            if (j + 1 < n && !visit[i][j + 1]) {
-                visit[i][j + 1] = true;
-                if (grid[i][j + 1] == '1') {
-                    depthFirstSearch(i, j + 1, grid, visit);
-                }
-            }
-            if (i - 1 >= 0 && !visit[i - 1][j]) {
-                visit[i - 1][j] = true;
-                if (grid[i - 1][j] == '1') {
-                    depthFirstSearch(i - 1, j, grid, visit);
-                }
-            }
-            if (j - 1 >= 0 && !visit[i][j - 1]) {
-                visit[i][j - 1] = true;
-                if (grid[i][j - 1] == '1') {
-                    depthFirstSearch(i, j - 1, grid, visit);
-                }
-            }
+            grid[i][j] = '2';
+            depthFirstSearch(i + 1, j, grid);
+            depthFirstSearch(i - 1, j, grid);
+            depthFirstSearch(i, j + 1, grid);
+            depthFirstSearch(i, j - 1, grid);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)

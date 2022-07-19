@@ -45,7 +45,7 @@ package cn;
 import java.util.*;
 
 /**
- * one course may need multi preCourses;bh
+ * one course may need multi preCourses;
  *
  * @author liuchenguang002
  */
