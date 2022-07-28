@@ -43,6 +43,10 @@ package cn;
 
 import java.util.Arrays;
 
+/**
+ * 复习一下初中数学：四条边相同的只有正方形和菱形，对角线相同的只有正方形
+ * @author 17862
+ */
 public class ValidSquare_593 {
 
     public static void main(String[] args) {
@@ -59,6 +63,10 @@ public class ValidSquare_593 {
     class Solution {
 
         public boolean validSquare(int[] p1, int[] p2, int[] p3, int[] p4) {
+            if (p1[0] == p2[0] && p1[1] == p2[1]) {
+                return false;
+            }
+
             int[] value = new int[6];
             value[0] = computeDistance(p1, p2);
             value[1] = computeDistance(p1, p3);
@@ -67,15 +75,10 @@ public class ValidSquare_593 {
             value[4] = computeDistance(p2, p4);
             value[5] = computeDistance(p3, p4);
             Arrays.sort(value);
-            return !same && value[0] == value[1] && value[0] == value[2] && value[0] == value[3] && value[4] == value[5];
+            return value[0] == value[1] && value[0] == value[2] && value[0] == value[3] && value[4] == value[5];
         }
 
-        private boolean same = false;
-
         private int computeDistance(int[] left, int[] right) {
-            if (left[0] == right[0] && left[1] == right[1]) {
-                same = true;
-            }
             return (left[0] - right[0]) * (left[0] - right[0]) + (left[1] - right[1]) * (left[1] - right[1]);
         }
     }
