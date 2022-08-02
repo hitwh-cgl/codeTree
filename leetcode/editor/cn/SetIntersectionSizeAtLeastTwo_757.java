@@ -36,20 +36,13 @@ package cn;
 
 import java.util.Arrays;
 
-/**
- * todo 贪心算法
- */
 public class SetIntersectionSizeAtLeastTwo_757 {
     public static void main(String[] args) {
         // 01 23
         // 01 12
         // 02 13
         int[][] intervals = new int[][]{
-                {0, 1},
-                {2, 3},
-                {0, 2},
-                {1, 2},
-                {1, 3}
+                {2, 15}, {9, 17}, {0, 6}, {17, 25}, {0, 25}
         };
         Solution solution = new Solution();
         int sizeTwo = solution.intersectionSizeTwo(intervals);
@@ -58,7 +51,7 @@ public class SetIntersectionSizeAtLeastTwo_757 {
 
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        private int prefix = 0;
+        private int count = 0;
 
         public int intersectionSizeTwo(int[][] intervals) {
             if (intervals.length == 1) {
@@ -74,26 +67,34 @@ public class SetIntersectionSizeAtLeastTwo_757 {
             });
 
             // 0 3 0 4 1 2
-            int[] cur = intervals[0];
-            for (int i = 1; i < intervals.length; i++) {
+            count = 2;
+            int[] cur = new int[]{intervals[intervals.length - 1][0], intervals[intervals.length - 1][0] + 1};
+            for (int i = intervals.length - 2; i >= 0; i--) {
                 cur = merge(cur, intervals[i]);
             }
-            return prefix + 2;
+            return count;
         }
 
-        private int[] merge(int[] left, int[] right) {
+        private int[] merge(int[] cur, int[] merge) {
+            // 02 12
             // 01 12
             // 01 23
-            // 02 13
-            if (left[1] == right[0]) {
-                prefix += 1;
-                return new int[]{right[1]};
-            } else if (left[1] > right[0]) {
-                return new int[]{left[1] - 1, left[1]};
+            if (cur[0] > merge[1]) {
+                count += 2;
+                cur = new int[]{merge[0], merge[0] + 1};
+            } else if (cur[0] == merge[1]) {
+                count += 1;
+                cur = new int[]{merge[0], cur[0]};
             } else {
-                prefix += 2;
-                return right;
+                if (cur[1] <= merge[1]) {
+                    // 14 23
+                } else {
+                    // 14 25
+                    count++;
+                    cur = new int[]{merge[0], cur[0]};
+                }
             }
+            return cur;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
