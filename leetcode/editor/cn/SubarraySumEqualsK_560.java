@@ -32,6 +32,7 @@ package cn;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SubarraySumEqualsK_560 {
     static //leetcode submit region begin(Prohibit modification and deletion)
@@ -44,18 +45,24 @@ public class SubarraySumEqualsK_560 {
          * 这样就可以唯一确定目标值，引入哈希表来避免遍历;
          */
         public int subarraySum67mn(int[] nums, int k) {
-            HashMap<Integer, Integer> preSumAndTime = new HashMap<>(nums.length);
-            int result = 0;
-            int total = 0;
-            preSumAndTime.put(0, 1);
+            Map<Integer, Integer> map = new HashMap<>();
+            map.put(0, 1);
+            int sum = 0;
+            int count = 0;
             for (int i = 0; i < nums.length; i++) {
-                total += nums[i];
-                if (preSumAndTime.get(total - k) != null) {
-                    result += preSumAndTime.get(total - k);
+                sum += nums[i];
+                Integer get = map.get(sum - k);
+                if (get != null) {
+                    count += get;
                 }
-                preSumAndTime.put(total, preSumAndTime.getOrDefault(total, 0) + 1);
+                Integer pre = map.get(sum);
+                if (pre == null) {
+                    map.put(sum, 1);
+                } else {
+                    map.put(sum, pre + 1);
+                }
             }
-            return result;
+            return count;
         }
 
         public int subarraySumV1(int[] nums, int k) {
