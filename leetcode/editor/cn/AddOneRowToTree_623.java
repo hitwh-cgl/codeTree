@@ -65,10 +65,8 @@ public class AddOneRowToTree_623 {
             }
 
             if (depth == curDepth + 1) {
-                TreeNode left = new TreeNode(val, cur.left, null);
-                cur.left = left;
-                TreeNode right = new TreeNode(val, null, cur.right);
-                cur.right = right;
+                cur.left = new TreeNode(val, cur.left, null);
+                cur.right = new TreeNode(val, null, cur.right);
             } else {
                 dfs(cur.left, val, depth, curDepth + 1);
                 dfs(cur.right, val, depth, curDepth + 1);
