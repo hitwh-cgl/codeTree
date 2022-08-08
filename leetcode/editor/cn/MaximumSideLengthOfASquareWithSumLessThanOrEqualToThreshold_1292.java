@@ -41,6 +41,7 @@ package cn;
 /**
  * 1.类似LC363中处理二维矩阵的前缀和手法，可以在O(m*m*n)的时间复杂度内计算出结果，空间复杂度是O(m+n)
  * 2.更重要的手法是二维前缀和的记忆化存储手法，可以在O(mn)的时间内计算所有矩形数字和，空间复杂度是O(m*n)
+ * 3.本题还有一个重点在于理解如何将时间复杂度从二分法的O(mnlog(c))优化到O(mn);
  *
  * @author 17862
  */
@@ -58,6 +59,8 @@ public class MaximumSideLengthOfASquareWithSumLessThanOrEqualToThreshold_1292 {
             }
 
             int max = 0;
+            // 这里的复杂度计算比较晦涩，可以理解为每个可以作为正方形的右下角顶点，最多只会判断一次；
+            // 如果长度递增成功，一些顶点甚至不会判断；
             for (int i = 1; i <= m; i++) {
                 for (int j = 1; j <= n; j++) {
                     for (int c = max + 1; c <= Math.max(m, n); c++) {
