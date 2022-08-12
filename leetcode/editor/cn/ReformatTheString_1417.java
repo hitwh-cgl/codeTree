@@ -91,12 +91,12 @@ public class ReformatTheString_1417 {
                     charIndex = 0;
                     digitIndex = 1;
                 }
-                for (int i = 0; i < s.length(); i++) {
-                    if (Character.isDigit(s.charAt(i))) {
-                        value[digitIndex] = s.charAt(i);
+                for (char c : s.toCharArray()) {
+                    if (Character.isDigit(c)) {
+                        value[digitIndex] = c;
                         digitIndex += 2;
                     } else {
-                        value[charIndex] = s.charAt(i);
+                        value[charIndex] = c;
                         charIndex += 2;
                     }
                 }
