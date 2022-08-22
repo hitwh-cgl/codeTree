@@ -49,28 +49,24 @@ package cn;
 // 👍 532 👎 0
 
 
+import java.util.ArrayDeque;
+import java.util.Arrays;
+
 public class MaximumBinaryTree_654 {
+    public static void main(String[] args) {
+        Solution solution = new Solution();
+        solution.stack(new int[]{3, 2, 1, 6, 0, 5});
+    }
+
     static //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode() {}
- *     TreeNode(int val) { this.val = val; }
- *     TreeNode(int val, TreeNode left, TreeNode right) {
- *         this.val = val;
- *         this.left = left;
- *         this.right = right;
- *     }
- * }
- */
     class Solution {
         public TreeNode constructMaximumBinaryTree(int[] nums) {
             return constructMaximumBinaryTree(nums, 0, nums.length - 1);
         }
 
+        /**
+         * 递归 分治算法
+         */
         public TreeNode constructMaximumBinaryTree(int[] nums, int left, int right) {
             if (left > right) {
                 return null;
@@ -87,6 +83,53 @@ public class MaximumBinaryTree_654 {
                 TreeNode rightNode = constructMaximumBinaryTree(nums, maxIndex + 1, right);
                 return new TreeNode(nums[maxIndex], leftNode, rightNode);
             }
+        }
+
+        /**
+         * 单调栈
+         */
+        public TreeNode stack(int[] nums) {
+            int[] parent = new int[nums.length];
+            TreeNode root = null;
+            TreeNode[] cache = new TreeNode[nums.length];
+            Arrays.fill(parent, -1);
+            ArrayDeque<Integer> stack = new ArrayDeque<>();
+            for (int i = 0; i < nums.length; i++) {
+                cache[i] = new TreeNode(nums[i]);
+                while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+                    int preIndex = stack.poll();
+                    parent[preIndex] = i;
+                }
+                stack.push(i);
+            }
+            stack.clear();
+            for (int i = nums.length - 1; i >= 0; i--) {
+                while (!stack.isEmpty() && nums[stack.peek()] < nums[i]) {
+                    int preIndex = stack.poll();
+                    if (parent[preIndex] == -1) {
+                        parent[preIndex] = i;
+                    } else {
+                        if (nums[parent[preIndex]] > nums[i]) {
+                            parent[preIndex] = i;
+                        }
+                    }
+                }
+                stack.push(i);
+            }
+
+            for (int i = 0; i < parent.length; i++) {
+                if (parent[i] == -1) {
+                    root = cache[i];
+                } else {
+                    int parentIndex = parent[i];
+                    if (parentIndex > i) {
+                        cache[parentIndex].left = cache[i];
+                    } else {
+                        cache[parentIndex].right = cache[i];
+                    }
+                }
+            }
+            return root;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
