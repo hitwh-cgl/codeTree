@@ -98,7 +98,7 @@ public class LongestIncreasingSubsequence_300 {
                 int curLength = 1;
                 for (int i = 1; i <= maxLength; i++) {
                     if (min[i] < nums[index]) {
-                        curLength = Math.max(curLength, i + 1);
+                        curLength = i + 1;
                     }
                 }
                 if (curLength > maxLength) {
