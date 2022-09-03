@@ -36,6 +36,11 @@ package cn;
 // 👍 1864 👎 0
 
 
+/**
+ * 贪心算法 维护当前能跳到的最远位置
+ *
+ * @author 17862
+ */
 public class JumpGame_55 {
     static //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {

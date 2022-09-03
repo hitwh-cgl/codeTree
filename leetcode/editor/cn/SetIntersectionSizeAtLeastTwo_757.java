@@ -70,12 +70,12 @@ public class SetIntersectionSizeAtLeastTwo_757 {
             count = 2;
             int[] cur = new int[]{intervals[intervals.length - 1][0], intervals[intervals.length - 1][0] + 1};
             for (int i = intervals.length - 2; i >= 0; i--) {
-                cur = merge(cur, intervals[i]);
+                cur = merge(intervals[i], cur);
             }
             return count;
         }
 
-        private int[] merge(int[] cur, int[] merge) {
+        private int[] merge(int[] merge, int[] cur) {
             // 02 12
             // 01 12
             // 01 23
