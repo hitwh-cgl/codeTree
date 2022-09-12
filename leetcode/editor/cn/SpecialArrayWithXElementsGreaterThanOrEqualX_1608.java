@@ -54,9 +54,16 @@ package cn;
 
 import java.util.Arrays;
 
+/**
+ * 这道题虽然简单，但是对二分法理解很有帮忙，若干细节，耐人寻味；
+ * 1.我一开始希望用二分法找小于x的最大值，但是发现大家都是寻找大于x的最小值；
+ * 2.控制循环的等号到底要不要加；
+ * 3.为什么往右而不是往左；
+ * @author 17862
+ */
 public class SpecialArrayWithXElementsGreaterThanOrEqualX_1608 {
     public static void main(String[] args) {
-        int[] nums = new int[]{3, 6, 7, 7,9,0};
+        int[] nums = new int[]{3, 5};
         Solution solution = new Solution();
         solution.specialArray(nums);
     }
@@ -66,16 +73,16 @@ public class SpecialArrayWithXElementsGreaterThanOrEqualX_1608 {
         public int specialArray(int[] nums) {
             Arrays.sort(nums);
             for (int i = 0; i <= 100; i++) {
-                int l = 0, r = nums.length - 1;
+                int l = -1, r = nums.length - 1;
                 while (l < r) {
-                    int mid = l + r >> 1;
-                    if (nums[mid] < i) {
-                        l = mid + 1;
+                    int mid = (l + r + 1) >> 1;
+                    if (nums[mid] >= i) {
+                        r = mid - 1;
                     } else {
-                        r = mid;
+                        l = mid;
                     }
                 }
-                if (nums[l] >= i && nums.length - 1 - l + 1 == i) {
+                if ((l == -1 || nums[l] < i) && nums.length - 1 - l == i) {
                     return i;
                 }
             }
