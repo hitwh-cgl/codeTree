@@ -40,7 +40,7 @@ package cn;
 public class LongestRepeatingCharacterReplacement_424 {
     public static void main(String[] args) {
         Solution solution = new Solution();
-        int max = solution.characterReplacement("AABAB", 1);
+        int max = solution.characterReplacement("AABABBB", 1);
         System.out.println(max);
     }
 
@@ -55,11 +55,12 @@ public class LongestRepeatingCharacterReplacement_424 {
             while (right < s.length()) {
                 count[value[right] - 'A']++;
                 max = Math.max(max, count[value[right] - 'A']);
-                while (max + k < right - left + 1) {
+                if (max + k < right - left + 1) {
                     count[value[left] - 'A']--;
                     left++;
+                } else {
+                    answer = right - left + 1;
                 }
-                answer = right - left + 1;
                 right++;
             }
             return answer;
